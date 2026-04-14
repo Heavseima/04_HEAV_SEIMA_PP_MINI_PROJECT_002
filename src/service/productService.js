@@ -78,3 +78,29 @@ export const getProductById = async (productId) => {
     const data = await res.json()
     return data.payload
 }
+
+export const createProduct = async (productData) => {
+    const header = await headerToken();
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products`, {
+        method: 'POST',
+        headers: header,
+        body: JSON.stringify(productData)
+    })
+    if (!res.ok) {
+        throw new Error(`Failed to create product: ${res.status}`);
+    }
+    const data = await res.json()
+    return data.payload
+}
+
+export const deleteProduct = async (productId) => {
+    const header = await headerToken();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products/${productId}`, {
+        method: 'DELETE',
+        headers: header
+    })
+    if (!res.ok) {
+        throw new Error(`Failed to delete product: ${res.status}`);
+    }
+}
